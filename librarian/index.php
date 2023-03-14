@@ -50,11 +50,11 @@ require "../header.php";
         $l_pass = $_POST['l_pass'];
 
         // checking if the fields are empty
-        if (empty($m_user) || empty($m_pass)) {
-            header("Location:index.php?error=emptyFields.$m_user");
+        if (empty($l_user) || empty($l_pass)) {
+            header("Location:index.php?error=emptyFields.$l_user");
             exit();
         } else {
-            $sql = "SELECT * FROM member WHERE username=?;";
+            $sql = "SELECT * FROM librarian WHERE username=?;";
             // initializing the prepared statement
             $stmt = mysqli_stmt_init($con);
 
@@ -64,17 +64,17 @@ require "../header.php";
                 exit();
             } else {
                 # bind parameters to the placeholders
-                mysqli_stmt_bind_param($stmt, "s", $m_user);
+                mysqli_stmt_bind_param($stmt, "s", $l_user);
                 mysqli_stmt_execute($stmt);
                 $result = mysqli_stmt_get_result($stmt);
 
                 if ($row = mysqli_fetch_assoc($result)) {
                     // password check
-                    if ($row['pwd'] == sha1($m_pass)) {
+                    if ($row['pwd'] == sha1($l_pass)) {
                         session_start();
-                        $_SESSION['type'] = 'member';
+                        $_SESSION['type'] = 'librarian';
                         $_SESSION['id'] = $row[0];
-                        $_SESSION['username'] = $_POST['m_user'];
+                        $_SESSION['username'] = $_POST['l_user'];
                         header('Location:home.php');
                     } else {
                         echo "Wrong combination of username and password";
