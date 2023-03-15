@@ -36,3 +36,22 @@ CREATE TABLE IF NOT EXISTS book(
     price INT(20),
     copies INT(10) NOT NULL
 )
+
+-- table structure for table 'pending_book_requests'
+
+CREATE TABLE IF NOT EXISTS pending_book_requests(
+    request_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+    member varchar(40) NOT NULL,
+    book_isbn VARCHAR(20) NOT NULL,
+    time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+)
+
+-- table structure for 'book_issue_log'
+
+CREATE TABLE IF NOT EXISTS book_issue_log(
+    issue_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    member VARCHAR(40) NOT NULL,
+    book_isbn VARCHAR(20) NOT NULL,
+    due_date DATE NOT NULL,
+    last_reminded DATE DEFAULT NULL
+)
