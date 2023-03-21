@@ -39,6 +39,8 @@ require "../header.php";
 
             <p style="text-align: center;">Don't have an account? &nbsp; <a href="register.php" style="text-decoration:none; color:red;">Register for free</a></p>
 
+            <p style="text-align: center;">Forgot you password? &nbsp; <a href="reset_password.php" style="text-decoration:none; color:red;">Reset</a></p>
+
             <p style="text-align: center;"> <a href="../index.php" style="text-decoration:none; color:blue;">Back</a>
 
         </form>
@@ -53,10 +55,10 @@ if (isset($_POST['m_login'])) {
     $m_pass = $_POST['m_pass'];
 
     // checking if the fields are empty
-    if(empty($m_user) || empty($m_pass)) {
+    if (empty($m_user) || empty($m_pass)) {
         header("Location:index.php?error=emptyFields.$m_user");
         exit();
-    }else{
+    } else {
         $sql = "SELECT * FROM member WHERE username=?;";
         // initializing the prepared statement
         $stmt = mysqli_stmt_init($con);
@@ -65,7 +67,7 @@ if (isset($_POST['m_login'])) {
         if (!mysqli_stmt_prepare($stmt, $sql)) {
             header("Location:index.php?error=sqlerror");
             exit();
-        }else{
+        } else {
             # bind parameters to the placeholders
             mysqli_stmt_bind_param($stmt, "s", $m_user);
             mysqli_stmt_execute($stmt);
@@ -73,13 +75,13 @@ if (isset($_POST['m_login'])) {
 
             if ($row = mysqli_fetch_assoc($result)) {
                 // password check
-                if ($row['pwd'] == sha1($m_pass)){
+                if ($row['pwd'] == sha1($m_pass)) {
                     session_start();
                     $_SESSION['type'] = 'member';
                     $_SESSION['id'] = $row[0];
                     $_SESSION['username'] = $_POST['m_user'];
                     header('Location:home.php');
-                }else{
+                } else {
                     echo "Wrong combination of username and password";
                 }
             }

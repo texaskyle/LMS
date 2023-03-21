@@ -83,6 +83,11 @@ require "header_librarian.php";
                             if ($result) {
                                 echo "The query was successful";
 
+                                // inserting the member details in the profileimg table and the status will be one since he has not uploaded the profile image
+                                $query_insert = "INSERT INTO profileimg (username, status) VALUES('$selectedUser', 1)";
+
+                                $query_insert_run = mysqli_query($con, $query_insert);
+
                                 if ($members > 0)
                                 echo success("Successfully added " . $members . " members");
                                 else

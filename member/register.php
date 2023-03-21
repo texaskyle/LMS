@@ -110,36 +110,40 @@ if (isset($_POST['m_register'])) {
     if (!$query_check_username_run) {
         echo "query to check if username exists didnt run";
     }else{
-        if(mysqli_num_rows($query_check_username_run) != 0) {
-            echo "The username you entered is already taken!! Choose another username";
+        if(mysqli_num_rows($query_check_username_run) > 0) {
+            echo error_without_field("The username you entered is already taken!! Choose another username") ;
+        }else{
+            if (!$query_check_email_run) {
+                echo "query to check if username exists didnt run";
+            } else {
+                if (mysqli_num_rows($query_check_email_run) > 0) {
+                    echo error_without_field("An account is already registered with that email");
+                } else {
+                    // escaping the sql injection
+                    $m_name = mysqli_real_escape_string($con, $_POST['m_name']);
+                    $m_email = mysqli_real_escape_string($con, $_POST['m_email']);
+                    $m_user
+                        = mysqli_real_escape_string($con, $_POST['m_user']);
+                    $m_pass
+                        = mysqli_real_escape_string($con, sha1($_POST['m_pass']));
+
+                    // query to insert the member details into the database
+                    $query_member_details = "INSERT INTO pending_registrations(username, pwd, name, email) VALUES('$m_user', '$m_pass', '$m_name', '$m_email');";
+                    $query_member_details_run = mysqli_query($con, $query_member_details);
+
+                    // checking if the query to insert members into the database did run successfully
+                    if (!$query_member_details_run) {
+                        echo "you encounted an error while signing up";
+                    } else {
+                        echo success("Details submitted, soon you'll will be notified after verifications!");
+                    }
+                }
+            }
         }
     }
-    if(!$query_check_email_run){
-        echo "query to check if username exists didnt run";
-    }else{
-        if(mysqli_num_rows($query_check_email_run) != 0) {
-            echo "An account is already registered with that email";
-        }
-    }
+    
 
-    // escaping the sql injection
-    $m_name=mysqli_real_escape_string($con, $_POST['m_name']);
-    $m_email = mysqli_real_escape_string($con, $_POST['m_email']);
-    $m_user
-    = mysqli_real_escape_string($con, $_POST['m_user']);
-    $m_pass
-    = mysqli_real_escape_string($con, sha1($_POST['m_pass']));
-
-    // query to insert the member details into the database
-    $query_member_details = "INSERT INTO pending_registrations(username, pwd, name, email) VALUES('$m_user', '$m_pass', '$m_name', '$m_email');";
-    $query_member_details_run = mysqli_query($con, $query_member_details);
-
-    // checking if the query to insert members into the database did run successfully
-    if (!$query_member_details_run) {
-        echo "you encounted an error while signing up";
-    }else{
-        echo success("Details submitted, soon you'll will be notified after verifications!");
-    }
+    
 }else{
     echo "Click the Submit button to continue!!";
 }

@@ -35,16 +35,19 @@ require "header_librarian.php"
         </a> <br>
 
         <a href="search_books">
-            <input type="button"
-            value="Seach a book copy">
+            <input type="button" value="Seach a book copy">
         </a> <br>
-        
+
         <a href="display_books.php">
             <input type="button" value="Display Available Books">
         </a> <br>
 
         <a href="delete_book.php">
             <input type="button" value="Delete Book Records">
+        </a> <br>
+
+        <a href="delete_member.php">
+            <input type="button" value="Delete members">
         </a> <br>
 
         <a href="due_handler.php">

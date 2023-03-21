@@ -17,11 +17,11 @@ require "header_member.php"
 
 <body>
     <?php
-    $query_books = "SELECT * FROM book ORDER BY title";
+    $query_books = "SELECT * FROM book ";
     $query_books_run = mysqli_query($con, $query_books);
 
     // checking if the query run
-    if (!$query_books_run){
+    if (!$query_books_run) {
         die("ERROR: Couldn't fetch books");
     }
     // getting the results from the query
@@ -32,7 +32,7 @@ require "header_member.php"
 
     if ($num_rows == 0) {
         echo "<h2 style='text-align: center;'>No Book Available at the Moment</h2>";
-    }else{
+    } else {
         echo "<fieldset>";
         echo "<form class='cd-form'
         method='POST' action='#'>";
@@ -53,15 +53,15 @@ require "header_member.php"
         </tr>";
 
         while ($row = mysqli_fetch_assoc($query_books_run)) {
-            echo 
+            echo
             '<tr>
                 <td>
                 <input type="radio" name="isbn[]"
-                value="'.$row["isbn"].'">
-                <span>'.$row['isbn'].'</span>
+                value="' . $row["isbn"] . '">
+                <span>' . $row['isbn'] . '</span>
                 </td>
-                <td>'.$row["title"].'</td>
-                <td>'.$row["author"]. '</td>
+                <td>' . $row["title"] . '</td>
+                <td>' . $row["author"] . '</td>
                 <td>' . $row["category"] . '</td>
                 <td>' . $row["price"] . '</td>
                 <td>' . $row["copies"] . '</td>
@@ -76,13 +76,14 @@ require "header_member.php"
         echo "</fieldset>";
     }
 
-    if($_SERVER['REQUEST_METHOD'] == "POST") {
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (isset($_POST['m_request'])) {
             if (!empty($_POST['isbn'])) {
                 // selected isbn of the book
                 $selected_isbn = $_POST['isbn'][0];
-                
-                $query_copies = "SELECT copies FROM book WHERE isbn='$selected_isbn' ";
+
+                // this query is meant to check the number of copies that are available
+                $query_copies = "SELECT * FROM book WHERE isbn='$selected_isbn' ";
                 $query_copies_run = mysqli_query($con, $query_copies);
 
                 // checking the number of rows that were returned
@@ -91,20 +92,20 @@ require "header_member.php"
                 // fetching the results
                 $copies = mysqli_fetch_assoc($query_copies_run);
 
-                if ($num_rows>0) {
-                    if ($copies['copies'] == 0){
+                if ($num_rows > 0) {
+                    if ($copies['copies'] == 0) {
                         echo error_without_field("No copies of the selected book are available");
-                    }else{
+                    } else {
                         // checking if the member has requested more than one book and if yes, the request will be declined
                         $username = $_SESSION['username'];
-                        
-                        $query_requests = "SELECT request_id FROM pending_book_requests WHERE member ='$username' ";
+
+                        $query_requests = "SELECT * FROM pending_book_requests WHERE member ='$username' ";
                         $query_requests_run = mysqli_query($con, $query_requests);
 
                         $num_rows = mysqli_num_rows($query_requests_run);
-                        if ($num_rows == 1){
+                        if ($num_rows == 1) {
                             echo error_without_field("You can only request one book at a time");
-                        }else{
+                        } else {
                             // selecting the book isbn from the book_issue_log, to determine how many book they have been issued with.
                             $query_isbn = "SELECT book_isbn FROM book_issue_log WHERE member='$username'";
                             $query_isbn_run = mysqli_query($con, $query_isbn);
@@ -113,45 +114,44 @@ require "header_member.php"
                             $num_rows = mysqli_num_rows($query_isbn_run);
 
                             // rejecting if rows returned are more than 3
-                            if ($num_rows > 3){
+                            if ($num_rows > 3) {
                                 echo error_without_field("You cannot issue more than 3 books at a time");
-                            }else{
-                            $num_rows = mysqli_num_rows($query_isbn_run);
-                            if ($num_rows>=1){
+                            } else {
+                                $num_rows = mysqli_num_rows($query_isbn_run);
+                                echo "-----------------------------------------------------------";
+                                if ($num_rows > 1) {
                                     for ($i = 0; $i < $num_rows; $i++) {
                                         $row = mysqli_fetch_assoc($query_isbn_run);
 
                                         // if the book isbn from the book_issue_log is the same as the isbn selected in the dashboard break out of this loop
                                         if (strcmp($row['book_isbn'], $_POST['isbn'][0]) == 0) {
+                                            echo error_without_field("You have already issued a copy of this book");
                                             break;
                                         }
-                                        if ($i < $rows) 
-                                            echo error_without_field("You have already issued a copy of this book");
+                                        /*if ($i < $num_rows) 
+                                            echo error_without_field("You have already issued a copy of this book");*/
                                     }
-                            }else{
-                                        $isbn = $_POST['isbn'][0];
-                                        $query_insert_book = "INSERT INTO pending_book_requests(member, book_isbn) values('$username', '$isbn')" ;
+                                } else {
+                                    $isbn = $_POST['isbn'][0];
+                                    $query_insert_book = "INSERT INTO pending_book_requests(member, book_isbn) values('$username', '$isbn')";
 
-                                        $query_insert_book_run = mysqli_query($con, $query_insert_book);
+                                    $query_insert_book_run = mysqli_query($con, $query_insert_book);
 
-                                        // checking if the query did run
-                                        if (!$query_insert_book_run){
-                                            echo error_without_field("ERROR: Couldn\'t request book");
-                                        }else{
-                                            echo success("Selected book has been requested. Soon you'll' be notified when the book is issued to your account!");
-                                        }
-                                
-                                    
+                                    // checking if the query did run
+                                    if (!$query_insert_book_run) {
+                                        echo error_without_field("ERROR: Couldn\'t request book");
+                                    } else {
+                                        echo success("Selected book has been requested. Soon you'll' be notified when the book is issued to your account!");
+                                    }
                                 }
                             }
                         }
                     }
                 }
-
-            }else{
+            } else {
                 echo "Please select a book to issue";
             }
-        }else{
+        } else {
             echo "click the 'Request Book' button";
         }
     }
@@ -160,5 +160,3 @@ require "header_member.php"
 </body>
 
 </html>
-
-

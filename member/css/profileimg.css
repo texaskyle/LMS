@@ -1,0 +1,21 @@
+.user-container {
+    /* width: 150px; */
+    /* padding: 10px; */
+    /* background-color: #343642; */
+    /* margin: 10px; */
+     overflow: hidden; 
+    border-radius: 50%; 
+        object-fit: cover;
+        object-position: center left;
+}
+
+/* .user-container img {
+    float: right;
+    width: 80px;
+
+} */
+
+/* .user-container div {
+    float: right;
+    text-decoration: none;
+} */
