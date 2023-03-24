@@ -34,7 +34,7 @@ require "header_librarian.php"
             <input type="button" value="Update Copies of a Book">
         </a> <br>
 
-        <a href="search_books">
+        <a href="search_books.php">
             <input type="button" value="Seach a book copy">
         </a> <br>
 
@@ -46,8 +46,8 @@ require "header_librarian.php"
             <input type="button" value="Delete Book Records">
         </a> <br>
 
-        <a href="delete_member.php">
-            <input type="button" value="Delete members">
+        <a href="manage_members.php">
+            <input type="button" value="Manage members">
         </a> <br>
 
         <a href="due_handler.php">

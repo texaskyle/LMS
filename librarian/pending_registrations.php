@@ -88,15 +88,17 @@ require "header_librarian.php";
 
                                 $query_insert_run = mysqli_query($con, $query_insert);
 
-                                if ($members > 0)
-                                echo success("Successfully added " . $members . " members");
-                                else
-                                echo error_without_field("No registration selected");
-
                                 // deleting the verified members from the pending registration table
                                 $delete_inserted_m = "DELETE FROM pending_registrations WHERE username = '$selectedUser';";
                                 mysqli_query($con, $delete_inserted_m);
+                                echo success("Successfully added " . $members . " members");
+                                sleep(2);
 
+                                if ($members > 0) {
+                                header("Location:home.php?success?member_added");
+                                }else {
+                                echo error_without_field("No registration selected");
+                                }
                             } else {
                                 echo "The query failed";
                             }

@@ -4,8 +4,14 @@ CREATE TABLE IF NOT EXISTS member (
     username VARCHAR(30) NOT NULL,
     pwd CHAR(40) NOT NULL, 
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL
+    email VARCHAR(100) NOT NULL,
+    status VARCHAR(20) 
 );
+
+-- inserting one member at the pending_registrations
+INSERT INTO member(id, username, pwd, name, email) VALUES (1, "ivans", "7110eda4d09e062aa5e4a390b0a572ac0d2c0220", "ivans njoroge", "ivans@gmail.com");
+
+
 
 -- table structure for table pending_registrations'
 CREATE TABLE IF NOT EXISTS pending_registrations (
@@ -57,12 +63,12 @@ CREATE TABLE IF NOT EXISTS book_issue_log(
     issue_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     member VARCHAR(40) NOT NULL,
     book_isbn VARCHAR(20) NOT NULL,
-    due_date DATE NOT NULL,
+    due_date TIMESTAMP NOT NULL DEFAULT DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 7 DAY),
     last_reminded DATE DEFAULT NULL
 );
 
 -- create structure for  'profileimg' table 
 CREATE TABLE IF NOT EXISTS profileimg(
-    username VARCHAR(30) NOT NULL,
+    username VARCHAR(30) NOT NULL PRIMARY KEY,
     status INT(11)
 );

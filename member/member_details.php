@@ -79,6 +79,13 @@ require "header_member.php"
                     move_uploaded_file($fileTmpname, $newFileDestination);
                     $query_run = mysqli_query($con, $query);
 
+                    // Add the JavaScript code to refresh the page after the updating the profile pic
+                    echo "<script type='text/javascript'>
+                                            setTimeout(function(){
+                                            location.reload();
+                                            }, 3000);
+                                        </script>";
+
                     echo success("Successfully upoaded the profile image");
                 } else {
                     echo error_without_field("This type of image is too large");

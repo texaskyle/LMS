@@ -33,6 +33,16 @@ require "header_member.php"
     if ($num_rows == 0) {
         echo "<h2 style='text-align: center;'>No Book Available at the Moment</h2>";
     } else {
+        // -----------------------------------------------------
+        // searching for a book inside the database
+        // echo '<fieldset>
+        //         <form class="cd-form" method="POST" action="search_books.php">
+        //             <input type="text" name="q" placeholder="Search for books...">
+        //             <button type="submit">Search</button>
+        //         </form>
+        //     </fieldset>';
+        echo '<a href="search_books.php">Search Book</a>';
+
         echo "<fieldset>";
         echo "<form class='cd-form'
         method='POST' action='#'>";
@@ -118,7 +128,6 @@ require "header_member.php"
                                 echo error_without_field("You cannot issue more than 3 books at a time");
                             } else {
                                 $num_rows = mysqli_num_rows($query_isbn_run);
-                                echo "-----------------------------------------------------------";
                                 if ($num_rows > 1) {
                                     for ($i = 0; $i < $num_rows; $i++) {
                                         $row = mysqli_fetch_assoc($query_isbn_run);

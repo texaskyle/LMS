@@ -1,20 +1,16 @@
 <?php
 require "../db_connect.php";
 require "../message_display.php";
-
 require "../header.php";
 ?>
-<!DOCTYPE html>
-<html lang="en">
+
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Management System</title>
-    <link rel="stylesheet" href="../css/global_styles.css">
-    <link rel="stylesheet" href="../css/form_styles.css">
-    <link rel="stylesheet" href="../css/index_style.css">
+    <link rel="stylesheet" type="text/css" href="../css/global_styles.css">
+    <link rel="stylesheet" type="text/css" href="../css/form_styles.css">
+    <link rel="stylesheet" type="text/css" href="css/index_style.css">
 </head>
 
 <body>
@@ -74,16 +70,21 @@ if (isset($_POST['m_login'])) {
             $result = mysqli_stmt_get_result($stmt);
 
             if ($row = mysqli_fetch_assoc($result)) {
-                // password check
-                if ($row['pwd'] == sha1($m_pass)) {
-                    session_start();
-                    $_SESSION['type'] = 'member';
-                    $_SESSION['id'] = $row[0];
-                    $_SESSION['username'] = $_POST['m_user'];
-                    header('Location:home.php');
-                } else {
-                    echo "Wrong combination of username and password";
-                }
+                // password check 
+                    if ($row['pwd'] == sha1($m_pass)) {
+                        session_start();
+                        $_SESSION['type'] = 'member';
+                        $_SESSION['id'] = $row['id'];
+                        $_SESSION['username'] = $_POST['m_user'];
+                    //  echo success("login sucess");
+                    if ($row['status'] == 'blocked') {
+                        echo error_without_field($row['username'] . ", your user account have been suspended Contact the librarian for more info");
+                    }else{
+                        header('Location:home.php?login=success');
+                    }
+                    } else {
+                        echo error_without_field("Wrong combination of username and password");
+                    }
             }
         }
     }

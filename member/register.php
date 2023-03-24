@@ -144,8 +144,6 @@ if (isset($_POST['m_register'])) {
     
 
     
-}else{
-    echo "Click the Submit button to continue!!";
 }
 ?>
 

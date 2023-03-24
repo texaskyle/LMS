@@ -87,11 +87,8 @@ require "header_librarian.php";
                         $requests++;
 
                         // check if the query was successfully executed
-                        if ($result) {
-                            echo "The query to insert the requests in the table book_issue_log from the table pending_book_requests was successful";
-                        }else{
+                        if (!$result) 
                             die(error_without_field("ERROR: Couldn\'t issue book"));
-                        }
 
                         // sending mail to the member
                         $query_mail = "SELECT email FROM member WHERE username = '$selectedUser'";
@@ -102,7 +99,6 @@ require "header_librarian.php";
 
                         
                         $subject = "Book has been issued successfully";
-                        echo $subject;
                     //  taking the book title so that i can use it in the message email
                     $query = "SELECT * FROM pending_book_requests WHERE member = '$selectedUser'";
                     $query_run = mysqli_query($con, $query);
@@ -141,11 +137,10 @@ require "header_librarian.php";
                                     
                                     // sending the mail message to the user
                                     mail($to, $subject, $message, $header);
-                                    // --------------------------------------------------------------------------------
-                                    // now deleting the rejected requests
+                                   
+                                    // now deleting the pending book from the requests
                                     $query_delete = "DELETE FROM pending_book_requests WHERE member='$selectedUser'";
                                     $query_delete_run = mysqli_query($con, $query_delete);
-
                                     // checking if the query did run
                                     if (!$query_delete_run) {
                                         die(error_without_field("ERROR: Couldn\'t delete values"));
@@ -157,7 +152,16 @@ require "header_librarian.php";
                     }
                 }
                 if ($requests > 0){
-                    echo success("Granted Successfully! " .$requests."requests");
+                    // reducing the number of copies by one each time a book is issued to a member
+                    $copies = $row_book['copies'];
+                    $query_update_no_copies = "UPDATE book set copies=copies-1 WHERE isbn='$book_isbn'";
+                    $query_update_no_copies_run = mysqli_query($con, $query_update_no_copies);
+
+                    if ($query_update_no_copies_run) {
+                        echo success("Granted Successfully! " . $requests . "requests");
+                    }
+
+                    exit();
                 }else{
                     echo error_without_field("No request selected");
                 }
