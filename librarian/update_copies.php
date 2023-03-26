@@ -63,7 +63,7 @@ if (isset($_POST['b_add'])) {
         if ($num_rows == 0) {
             echo "No records found";
         } else {
-            echo "Number of rows returned: " . $num_rows;
+            echo success("Number of rows returned: " . $num_rows) ;
         }
         // --------------------------------------------------------------------------
         if ($num_rows != 1 ) {
@@ -87,8 +87,6 @@ if (isset($_POST['b_add'])) {
             }
         }
     }
-}else{
-    echo "Click Update Book Copies!! ";
 }
 ?>
 </body

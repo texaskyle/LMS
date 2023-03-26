@@ -39,7 +39,7 @@
         </div> -->
 
         <div id="cd-logo">
-            <a href="../">
+            <a href="home.php">
                 <?php
                 $query_profile_img = "SELECT * FROM profileimg WHERE username='$username'";
                 $query_profile_img_run = mysqli_query($con, $query_profile_img);
@@ -92,21 +92,6 @@
                     </div>
 
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </header>
 </body>
 

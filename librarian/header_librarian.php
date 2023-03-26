@@ -13,7 +13,7 @@
 <body>
     <header>
         <div id="cd-logo">
-            <a href="../">
+            <a href="home.php">
                 <img src="../img/lms_logo.jpg" alt="lms logo" width="45" height="45">
                 <p>Library Management System</p>
             </a>

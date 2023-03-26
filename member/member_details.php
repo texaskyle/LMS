@@ -14,7 +14,7 @@ require "header_member.php"
 </head>
 
 <body>
-    <div class='upload_del_form'>
+    <div class='upload_del_form' style="float: left;">
         <fieldset>
             <form class="cd-form" action="#" method="POST" enctype="multipart/form-data">
                 <legend>Upload profile picture</legend>
@@ -136,10 +136,23 @@ require "header_member.php"
             echo success("you have successfully deleted you profile image");
             sleep(2);
         }
-    } else {
-        // echo error_without_field("Choose a picture to upload");
     }
     ?>
+
+    <div style="float: none;">
+        <?php
+        require "borrowed_pending_books.php";
+        ?>
+    </div>
+
+
+        <!-- Books that the member has borrowed from the library -->
+        <?php
+        require "borrowed_books.php";
+        ?>
+
+
+
 </body>
 
 </html>

@@ -1,0 +1,8 @@
+.borrowed-books-container {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    background-color: black;
+}

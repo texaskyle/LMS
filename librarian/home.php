@@ -35,7 +35,7 @@ require "header_librarian.php"
         </a> <br>
 
         <a href="search_books.php">
-            <input type="button" value="Seach a book copy">
+            <input type="button" value="Search a book copy">
         </a> <br>
 
         <a href="display_books.php">
