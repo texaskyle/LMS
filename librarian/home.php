@@ -30,6 +30,10 @@ require "header_librarian.php"
             <input type="button" value="Manage the Pending Membership Registrations">
         </a> <br>
 
+        <a href="return_book.php">
+            <input type="button" value="Return book">
+        </a> <br>
+
         <a href="update_copies.php">
             <input type="button" value="Update Copies of a Book">
         </a> <br>

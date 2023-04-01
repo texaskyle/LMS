@@ -159,7 +159,7 @@ require "header_member.php";
             echo "The searched book didnt match any book in the database";
         }
     } else {
-        echo "enter more than three characters";
+        echo error_without_field("enter more than three characters");
     }
 
 
