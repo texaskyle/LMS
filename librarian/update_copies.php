@@ -76,13 +76,14 @@ if (isset($_POST['b_add'])) {
                 echo "Failed to run the prepared statement";
             }else{
                 mysqli_stmt_bind_param($stmt, 'i', $b_copies);
-                mysqli_stmt_execute($stmt);
+                // mysqli_stmt_execute($stmt);
                 $result = mysqli_stmt_get_result($stmt);
 
                 if (!mysqli_stmt_execute($stmt)) {
                     echo "Unable to update the copies inside the DB";
                 }else{
-                    echo success("Successfully updated the copies");
+                    $copies = $_POST['b_copies'];
+                    echo success("Successfully updated the $copies copies.");
                 }
             }
         }

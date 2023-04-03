@@ -79,14 +79,12 @@ require "header_member.php"
                     move_uploaded_file($fileTmpname, $newFileDestination);
                     $query_run = mysqli_query($con, $query);
 
-                    // Add the JavaScript code to refresh the page after the updating the profile pic
-                    echo "<script type='text/javascript'>
-                                            setTimeout(function(){
-                                            location.reload();
-                                            }, 3000);
-                                        </script>";
+                    echo success("Successfully uploaded the profile image");
 
-                    echo success("Successfully upoaded the profile image");
+                //   redirecting on the same page so that the pic uploaded can be reloaded and displayed
+                    sleep(1);
+                    header("Location:member_details.php");
+                   
                 } else {
                     echo error_without_field("This type of image is too large");
                 }
@@ -107,6 +105,7 @@ require "header_member.php"
             $fileExt = explode(".", $fileinfo[0]);
             $fileActualExt = $fileExt[1];
             echo error_without_field("You havent uploaded a picture yet");
+            // exit();
         } else {
             $fileExt = explode(".", $fileinfo[0]);
             $fileActualExt = $fileExt[1];
@@ -122,7 +121,8 @@ require "header_member.php"
             } else if (!unlink($file)) {
                 echo error_without_field("You experienced an eror when delete the file");
             } else {
-                echo success("you have successfully deleted you profile image");
+                echo success("you have successfully deleted your profile image");
+                header("Location:member_details.php");
             }
         }
 
@@ -133,8 +133,11 @@ require "header_member.php"
 
         // redirecting to the home page if the query has run successfully
         if ($query_run) {
+
+            //   redirecting on the same page so that the default pic can be reloaded and displayed
+            sleep(1);
+            header("Location:member_details.php");
             echo success("you have successfully deleted you profile image");
-            sleep(2);
         }
     }
     ?>

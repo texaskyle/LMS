@@ -81,7 +81,6 @@ require "header_librarian.php";
 
                             // Check if the query was successful
                             if ($result) {
-                                echo "The query was successful";
 
                                 // inserting the member details in the profileimg table and the status will be one since he has not uploaded the profile image
                                 $query_insert = "INSERT INTO profileimg (username, status) VALUES('$selectedUser', 1)";
@@ -95,7 +94,12 @@ require "header_librarian.php";
                                 sleep(2);
 
                                 if ($members > 0) {
-                                header("Location:home.php?success?member_added");
+                                //  header("Location:home.php?success?member_added");
+                                
+                                    header("Location:pending_registrations.php?success?member_added");
+                                    echo success("Successfully added " . $members . " members");
+                                exit();
+                                
                                 }else {
                                 echo error_without_field("No registration selected");
                                 }
@@ -104,7 +108,7 @@ require "header_librarian.php";
                             }
                         }
                     }else{
-                        echo "No users were selected";
+                        echo error_without_field("No users were selected");
                     }
                 }
 
@@ -131,6 +135,8 @@ require "header_librarian.php";
                                 }
                             }
                         }
+                    }else{
+                        echo error_without_field("No users were selected");
                     }
                 }
 

@@ -12,12 +12,14 @@ require "header_member.php";
     <link rel="stylesheet" href="../css/global_styles.css">
     <link rel="stylesheet" href="css/home_style.css">
     <link rel="stylesheet" href="../css/custom_radio_button_style.css">
+    <link rel="stylesheet" href="css/search_books.css">
 </head>
 
 <body>
 
-    <h2>Welcome to the Search Page</h2>
+
     <form class='cd-form' action="search_books.php" method="GET">
+        <h2>Welcome to the Search Page</h2>
         <div class='error-message' id='error-message'>
             <p id='error'></p>
         </div>
@@ -35,7 +37,7 @@ require "header_member.php";
         $no_of_rows = mysqli_num_rows($query_run);
 
         if ($no_of_rows > 0) {
-            echo "There were " . $no_of_rows . " results obtained <br>";
+            echo success("There were " . $no_of_rows . " results obtained <br>");
             echo "<fieldset>";
             echo "<form class='cd-form'
         method='POST' action='#'>";
@@ -156,7 +158,7 @@ require "header_member.php";
                 }
             }
         } else {
-            echo "The searched book didnt match any book in the database";
+            echo error_without_field("The searched book didnt match any book in the database");
         }
     } else {
         echo error_without_field("enter more than three characters");

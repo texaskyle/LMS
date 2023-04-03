@@ -54,9 +54,7 @@ require "header_librarian.php"
             <input type="button" value="Manage members">
         </a> <br>
 
-        <a href="due_handler.php">
-            <input type="button" value="Today's Reminder">
-        </a> <br>
+        
     </div>
 </body>
 

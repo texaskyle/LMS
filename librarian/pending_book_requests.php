@@ -105,7 +105,8 @@ require "header_librarian.php";
                     $num_rows = mysqli_num_rows($query_run);
                     
                     if ($num_rows == 0) {
-                        echo "no data in the pending_book_requests table";
+                        echo error_without_field("No data in the pending_book_requests table");
+                        header("Location:pending_book_requests.php");
                     }else{
                     $query_run = mysqli_query($con, $query);
                         $row = mysqli_fetch_assoc($query_run);
@@ -116,7 +117,7 @@ require "header_librarian.php";
                         $query_book_title_run = mysqli_query($con, $query_book_title);
                         $num_rows = mysqli_num_rows($query_book_title_run);
                         if ($num_rows == 0) {
-                            echo "No book with that book isbn found";
+                            echo error_without_field("No book with that book isbn found");
                         }else{
                             $row_book = mysqli_fetch_assoc($query_book_title_run);
                             $book_title = $row_book['title'];

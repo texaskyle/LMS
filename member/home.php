@@ -31,16 +31,9 @@ require "header_member.php"
     $num_rows = mysqli_num_rows($query_books_run);
 
     if ($num_rows == 0) {
-        echo "<h2 style='text-align: center;'>No Book Available at the Moment</h2>";
+        echo error_without_field("<h2 style='text-align: center;'>No Book Available at the Moment</h2>");
     } else {
-        // -----------------------------------------------------
         // searching for a book inside the database
-        // echo '<fieldset>
-        //         <form class="cd-form" method="POST" action="search_books.php">
-        //             <input type="text" name="q" placeholder="Search for books...">
-        //             <button type="submit">Search</button>
-        //         </form>
-        //     </fieldset>';
         echo '<a href="search_books.php">Search Book</a>';
 
         echo "<fieldset>";
@@ -117,28 +110,25 @@ require "header_member.php"
                             echo error_without_field("You can only request one book at a time");
                         } else {
                             // selecting the book isbn from the book_issue_log, to determine how many book they have been issued with.
-                            $query_isbn = "SELECT book_isbn FROM book_issue_log WHERE member='$username'";
+                            $query_isbn = "SELECT * FROM book_issue_log WHERE member='$username'";
                             $query_isbn_run = mysqli_query($con, $query_isbn);
 
                             // checking the rows returned
                             $num_rows = mysqli_num_rows($query_isbn_run);
-
                             // rejecting if rows returned are more than 3
                             if ($num_rows > 3) {
-                                echo error_without_field("You cannot issue more than 3 books at a time");
+                                echo error_without_field("You cannot be issued more than 3 books at a time");
                             } else {
-                                $num_rows = mysqli_num_rows($query_isbn_run);
                                 if ($num_rows > 1) {
                                     for ($i = 0; $i < $num_rows; $i++) {
                                         $row = mysqli_fetch_assoc($query_isbn_run);
 
                                         // if the book isbn from the book_issue_log is the same as the isbn selected in the dashboard break out of this loop
                                         if (strcmp($row['book_isbn'], $_POST['isbn'][0]) == 0) {
-                                            echo error_without_field("You have already issued a copy of this book");
+                                            echo error_without_field("You have already been issued a copy of this book!!");
                                             break;
                                         }
-                                        /*if ($i < $num_rows) 
-                                            echo error_without_field("You have already issued a copy of this book");*/
+        
                                     }
                                 } else {
                                     $isbn = $_POST['isbn'][0];
@@ -150,7 +140,12 @@ require "header_member.php"
                                     if (!$query_insert_book_run) {
                                         echo error_without_field("ERROR: Couldn\'t request book");
                                     } else {
-                                        echo success("Selected book has been requested. Soon you'll' be notified when the book is issued to your account!");
+                                        // minus the number of books so that when a member makes a request the number of copies will be deducted from the available books
+                                        $query_update_no_copies = "UPDATE book set copies=copies-1 WHERE isbn='$isbn'";
+                                        $query_update_no_copies_run = mysqli_query($con, $query_update_no_copies);
+                                        if ($query_update_no_copies_run) {
+                                            echo success("Selected book has been requested. Soon you'll' be notified when the book is issued to your account!");
+                                        }  
                                     }
                                 }
                             }
@@ -158,10 +153,8 @@ require "header_member.php"
                     }
                 }
             } else {
-                echo "Please select a book to issue";
+                echo error_without_field("Please select a book to issue");
             }
-        } else {
-            echo "click the 'Request Book' button";
         }
     }
 

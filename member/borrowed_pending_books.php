@@ -9,13 +9,13 @@ require "../db_connect.php";
     // checking for the num rows returned
     $num_rows = mysqli_num_rows($query_book_run);
 if ($num_rows == 0) {
-    echo "<p style='color: blue;'>Dear Member,
+    echo "<p style='color: grey;'>Dear <strong>$username</strong><hr>
 
  As of now, <strong> you have not yet requested for any book.</strong> <br><br>
 
-If there are any books that you have been wanting to read or study, please don't hesitate to make a request through the system. Our librarians are always available to assist with any inquiries you may have, and we are eager to help you find the books you need. <br> <br>
+If there are any books that you have been wanting to read or study, please don't hesitate to make a request through the system. Our librarians are always available to assist with any inquiries you may have. <br> <br>
 
-Thank you for being a member of our library and we look forward to assisting you soon! <br> <br>
+Thank you for being a member of our library and we look forward to assisting you anytime! <br> <br>
 
 Best regards, <br> <br>
 
@@ -101,6 +101,8 @@ From the Management Team.</p>";
                         echo success("You have successfully rejected this $delete. book!!");
                     }
                 }
+            }else{
+                echo error_without_field("Choose a book to reject");
             }
         }
     }

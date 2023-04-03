@@ -1,0 +1,61 @@
+/* .error-message {
+    background-color: #ffecec;
+    border: 1px solid #f5aca6;
+    color: #ff0000;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#error {
+    color: #ff0000;
+} */
+
+
+ .error-message {
+    display: none;
+}
+
+.error-message p {
+    background: #e94b35;
+    color: #ffffff;
+    font-size: 1.4rem;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    border-radius: 0.25em;
+    padding: 16px;
+}
+
+.success-message p {
+    background: #4caf50;
+    color: #ffffff;
+    font-size: 1.4rem;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    border-radius: 0.25em;
+    padding: 16px;
+}
+
+.error-field {
+    border-color: #e94b35 !important;
+}
+
+/* @media only screen and (min-width: 600px) {
+    .cd-form div {
+        margin: 32px 0;
+    }
+
+    .cd-form legend+div {
+        margin-top: 20px;
+    }
+
+    .cd-form input[type="text"],
+    .cd-form input[type="password"],
+    .cd-form input[type="email"],
+    .cd-form input[type="number"],
+    .cd-form select {
+        padding: 16px;
+    }
+} */

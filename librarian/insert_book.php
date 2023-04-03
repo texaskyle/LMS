@@ -42,12 +42,12 @@ require "header_librarian.php"
                     <select class="b-category" name="b_category" id="">
                         <option value="Technology">Technology</option>
                         <option value="History">History</option>
-                        <option value="Comics">Comics</option>
-                        <option value="Fiction">Fiction</option>
+                        <option value="Comics">Science</option>
+                        <option value="Fiction">Georgraphical</option>
                         <option value="Non-Fiction">Non-Fiction</option>
                         <option value="Biography">Biography</option>
                         <option value="Medical">Medical</option>
-                        <option value="Fantasy">Fantasy</option>
+                        <option value="Fantasy">Motivation</option>
                         <option value="Education">Education</option>
                         <option value="Sports">Sports</option>
                         <option value="Literature">Literature</option>
@@ -91,7 +91,7 @@ if (isset($_POST['b_add'])) {
     $num_rows = mysqli_num_rows($query_isbn_run);
 
     if($num_rows != 0) {
-        echo "A book with '$b_isbn' number already exists";
+        echo error_without_field("A book with '$b_isbn' number already exists");
     }else{
         // inserting the book using prepared statements
         // escaping the sql injections
@@ -114,22 +114,20 @@ if (isset($_POST['b_add'])) {
         $stmt = mysqli_stmt_init($con);
 
         if(!mysqli_stmt_prepare($stmt, $query_add_book)) {
-            echo "The prepared statement to inhsert book into DB failed";
+            echo "The prepared statement to insert book into DB failed";
             exit();
         }else{
             mysqli_stmt_bind_param($stmt, "isssii", $b_isbn, $b_title, $b_author, $b_category, $b_price, $b_copies);
 
             if(!mysqli_stmt_execute($stmt)) {
-                echo "An error occured when recording a book into the DB";
+                echo error_without_field("An error occured when recording a book into the DB");
                 die("ERROR: Couldn't add book");
             }else{
-                echo success("New book record has been added");
+                echo success("New book record has been added <br> Insert another book details!!");
             }
         }
     }
 
-}else{
-    echo "click the Add Book button";
 }
 ?>
 

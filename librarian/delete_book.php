@@ -13,6 +13,7 @@ require "header_librarian.php";
     <link rel="stylesheet" type="text/css" href="../css/global_styles.css">
     <link rel="stylesheet" type="text/css" href="../css/home_style.css">
     <link rel="stylesheet" type="text/css" href="../member/css/custom_radio_button_style.css">
+    <link rel="stylesheet" href="css/delete_book.css">
 </head>
 <body>
     <?php
@@ -69,7 +70,8 @@ require "header_librarian.php";
         echo "</table><br /><br />";
         echo "<div style='float: right;'>";
 
-        echo "<input type='submit' value='Delete Book' name='l_book_delete'> &nbsp;&nbsp;&nbsp;";
+        // echo "<input type='submit' value='Delete Book' name='l_book_delete'> &nbsp;&nbsp;&nbsp;";
+        echo "<button class='button' type='submit' name='l_book_delete'>Delete Book</button>&nbsp;&nbsp;&nbsp;";
 
         echo "</form>";
         echo "</fieldset>";
